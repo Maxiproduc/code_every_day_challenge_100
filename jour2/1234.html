@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cercle de nombres</title>
+  <link rel="stylesheet" href="styles.css">
+	 <style>
+
+.container {
+  
+  align-items: center;
+  margin: 150px;
+}
+
+.circle-container {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  transition:  .4s ease;
+}
+
+.separator {
+  width: 50px;
+  height: 4px;
+  background-color: lightgray;
+  margin-right: -0px;
+  margin-top: 20px;
+  transition:  .4s ease;
+}
+
+.circle.active {
+  border: 2px solid dodgerblue;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 15px;
+  margin-right: -30px;
+  margin-left: 38px;
+  border: none;
+  background-color: dodgerblue;
+  color: white;
+  cursor: pointer;
+  outline: none;
+}
+
+button:disabled {
+  background-color: lightgray;
+  cursor: not-allowed;
+}
+
+
+	 </style>
+</head>
+<body>
+
+     <div class="container">
+  
+  <div class="circle-container">
+    <div class="circle active" data-index="1">1</div>
+    <div class="separator"></div>
+    <div class="circle" data-index="2">2</div>
+    <div class="separator"></div>
+    <div class="circle" data-index="3">3</div>
+    <div class="separator"></div>
+    <div class="circle" data-index="4">4</div>
+  </div>
+  <button id="previousBtn" disabled>Previous</button>
+  <button id="nextBtn">Next</button>
+</div>
+
+ 
+  <script >
+/*
+Ce code JavaScript utilise l'événement DOMContentLoaded pour s'assurer que le script est exécuté une fois quele document
+ HTML a été complètement chargé dans le navigateur. Voici ce que chaque partie du code fait :
+ 
+Sélection des éléments HTML :
+
+circles : Sélectionne tous les éléments HTML ayant la classe "circle", qui sont les cercles numérotés dans l'interface.
+separators : Sélectionne tous les éléments HTML ayant la classe "separator", qui sont les lignes séparant les cercles.
+previousBtn : Sélectionne le bouton HTML avec l'ID "previousBtn", qui permet de naviguer vers le cercle précédent.
+nextBtn : Sélectionne le bouton HTML avec l'ID "nextBtn", qui permet de naviguer vers le cercle suivant.
+Initialisation de l'index courant :
+
+currentIndex est initialisé à 1, indiquant que le premier cercle est actuellement sélectionné.
+Fonctions de mise à jour :
+
+updateButtons() : Cette fonction met à jour l'état des boutons de navigation (previous et next) en les rendant
+ cliquables ou non en fonction de la position actuelle du cercle.
+updateCircles() : Cette fonction met à jour l'apparence des cercles et des séparateurs en fonction de l'index courant. 
+Les cercles précédents sont colorés en bleu, les cercles suivants restent gris, et les séparateurs entre les cercles 
+sont également colorés en bleu ou en gris pour refléter cet état.
+update() : Cette fonction appelle les deux fonctions de mise à jour précédentes pour mettre à jour à la fois les 
+boutons et l'apparence des cercles.
+Appel initial de la fonction de mise à jour :
+
+La fonction update() est appelée une fois au début pour mettre à jour l'interface en fonction de l'index initial (1).
+Gestion des événements de clic :
+
+Des écouteurs d'événements sont ajoutés aux boutons "Previous" et "Next". Lorsqu'un bouton est cliqué, l'index courant
+ est ajusté en conséquence et la fonction update() est appelée pour mettre à jour l'interface en conséquence.
+*/
+    document.addEventListener("DOMContentLoaded", function() {
+  const circles = document.querySelectorAll(".circle");
+  const separators = document.querySelectorAll(".separator");
+  const previousBtn = document.getElementById("previousBtn");
+  const nextBtn = document.getElementById("nextBtn");
+
+  let currentIndex = 1;
+
+  function updateButtons() {
+    if (currentIndex === 1) {
+      previousBtn.disabled = true;
+    } else {
+      previousBtn.disabled = false;
+    }
+
+    if (currentIndex === circles.length) {
+      nextBtn.disabled = true;
+    } else {
+      nextBtn.disabled = false;
+    }
+  }
+
+  function updateCircles() {
+    circles.forEach((circle, index) => {
+      if (index < currentIndex) {
+        circle.classList.add("active");
+      } else {
+        circle.classList.remove("active");
+      }
+    });
+
+    separators.forEach((separator, index) => {
+      if (index < currentIndex - 1) {
+        separator.style.backgroundColor = "dodgerblue";
+      } else {
+        separator.style.backgroundColor = "lightgray";
+      }
+    });
+  }
+
+  function update() {
+    updateButtons();
+    updateCircles();
+  }
+
+  update();
+
+  previousBtn.addEventListener("click", function() {
+    if (currentIndex > 1) {
+      currentIndex--;
+      update();
+    }
+  });
+
+  nextBtn.addEventListener("click", function() {
+    if (currentIndex < circles.length) {
+      currentIndex++;
+      update();
+    }
+  });
+});
+
+ 
+  </script>
+</body>
+</html>

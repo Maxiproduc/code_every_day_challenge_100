@@ -46,7 +46,8 @@ img{
 }
 
 .panel.active{
-    flex: 5;
+    flex: 3.5;
+    background-color: #fff;
 }
 
 .panel.active h3{
